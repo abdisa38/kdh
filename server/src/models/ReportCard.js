@@ -33,9 +33,9 @@ const reportCardSchema = new mongoose.Schema(
         caScore: { type: Number, default: 0 },
         finalExamScore: { type: Number, default: 0 },
         totalScore: { type: Number, default: 0 },
-        letterGrade: { type: String, default: 'F' },
         passMark: { type: Number, default: 50 },
         isPassed: { type: Boolean, default: false },
+        rankInSubject: { type: Number, default: 1 },
       },
     ],
     totalMarks: {
@@ -60,8 +60,7 @@ const reportCardSchema = new mongoose.Schema(
     },
     conduct: {
       type: String,
-      enum: ['A', 'B', 'C', 'D'],
-      default: 'A',
+      default: 'በጣም ጥሩ (A)',
     },
     attendance: {
       daysPresent: { type: Number, default: 90 },
@@ -70,16 +69,16 @@ const reportCardSchema = new mongoose.Schema(
     },
     status: {
       type: String,
-      enum: ['Promoted', 'Promoted with Warning', 'Retained', 'Pending'],
-      default: 'Pending',
+      enum: ['ያለፈ (Promoted)', 'በማስጠንቀቂያ ያለፈ (Warning)', 'የደገመ (Retained)', 'በሂደት ላይ (Pending)'],
+      default: 'በሂደት ላይ (Pending)',
     },
     teacherComment: {
       type: String,
-      default: 'Good academic performance and respectful behavior.',
+      default: 'በጣም ጥሩ የትምህርት አቀባበልና ስነ-ምግባር አሳይቷል/ታለች። (Excellent academic effort and behavior.)',
     },
     directorRemarks: {
       type: String,
-      default: 'Approved by Karadibayu Primary School Academic Committee.',
+      default: 'የካራዲባዩ አንደኛ ደረጃ ትምህርት ቤት የአካዳሚክ ኮሚቴ ያረጋገጠው። (Approved by School Academic Board.)',
     },
     isPublished: {
       type: Boolean,

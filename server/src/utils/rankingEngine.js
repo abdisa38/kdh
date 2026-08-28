@@ -47,7 +47,6 @@ const calculateClassRankings = async (classRoomId, academicYearId, semester) => 
         caScore: m.assessments ? m.assessments.totalCA || 0 : 0,
         finalExamScore: m.finalExam || 0,
         totalScore: totalScore,
-        letterGrade: m.letterGrade || 'F',
         passMark: subject.passMark || 50,
         isPassed: isPassed,
       });
@@ -57,11 +56,11 @@ const calculateClassRankings = async (classRoomId, academicYearId, semester) => 
     const average = Math.round((totalMarks / subjectCount) * 100) / 100;
     const maxPossibleMarks = subjectCount * 100;
 
-    let status = 'Promoted';
+    let status = 'ያለፈ (Promoted)';
     if (average < 50 || failedCount >= 3) {
-      status = 'Retained';
+      status = 'የደገመ (Retained)';
     } else if (failedCount > 0) {
-      status = 'Promoted with Warning';
+      status = 'በማስጠንቀቂያ ያለፈ (Warning)';
     }
 
     studentSummaries.push({
@@ -84,7 +83,6 @@ const calculateClassRankings = async (classRoomId, academicYearId, semester) => 
   });
 
   // 4. Assign ranks (handling ties)
-  let currentRank = 1;
   for (let i = 0; i < studentSummaries.length; i++) {
     if (i > 0) {
       const prev = studentSummaries[i - 1];

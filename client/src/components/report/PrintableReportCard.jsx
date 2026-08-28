@@ -17,7 +17,7 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
         <AlertCircle className="w-10 h-10 text-amber-500 mx-auto mb-2" />
         <p className="text-slate-700 font-semibold">Report card record not yet finalized.</p>
         <p className="text-slate-500 text-sm mt-1">
-          Please verify that the teacher has submitted marks and computed rankings.
+          Please verify that the teacher has submitted numerical marks and computed rankings.
         </p>
       </div>
     );
@@ -34,17 +34,17 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
       {/* Top Action Bar (hidden when printing) */}
       <div className="no-print flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
         <div className="flex items-center gap-2">
-          <Award className="w-5 h-5 text-gold-600" />
+          <Award className="w-5 h-5 text-amber-600" />
           <span className="font-semibold text-slate-800 text-sm">
-            Official Academic Report Card Generated
+            Official Ethiopian Primary School Report Card (የውጤት መግለጫ ካርድ)
           </span>
         </div>
         <button
           onClick={handlePrint}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-school-900 text-white rounded-lg text-sm font-semibold hover:bg-school-800 transition-colors shadow-sm cursor-pointer"
+          className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white rounded-lg text-sm font-semibold hover:bg-slate-800 transition-colors shadow-sm cursor-pointer"
         >
-          <Printer className="w-4 h-4 text-gold-400" />
-          Print / Download PDF
+          <Printer className="w-4 h-4 text-amber-400" />
+          Print / Download PDF Card
         </button>
       </div>
 
@@ -54,7 +54,7 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
         <div className="text-center border-b-2 border-slate-800 pb-5 mb-6">
           <div className="flex items-center justify-between mb-2">
             <div className="w-16 h-16 border-2 border-slate-800 rounded-lg flex items-center justify-center bg-slate-50">
-              <GraduationCap className="w-10 h-10 text-school-900" />
+              <GraduationCap className="w-10 h-10 text-slate-900" />
             </div>
             <div>
               <div className="text-xs uppercase tracking-widest font-bold text-slate-600">
@@ -63,16 +63,16 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
               <h1 className="text-2xl font-black tracking-tight text-slate-950 uppercase mt-1">
                 KARADIBAYU PRIMARY SCHOOL
               </h1>
-              <h2 className="text-lg font-bold text-school-900 mt-0.5">
+              <h2 className="text-lg font-bold text-slate-900 mt-0.5">
                 ካራዲባዩ አንደኛ ደረጃ ትምህርት ቤት
               </h2>
               <div className="inline-block mt-2 px-4 py-0.5 bg-slate-900 text-white font-bold text-xs uppercase tracking-wider rounded">
-                Official Student Academic Report Card • የተማሪ የውጤት መግለጫ ካርድ
+                Official Student Academic Report Card • የተማሪ የውጤት መግለጫ ካርድ (Grades 1-8)
               </div>
             </div>
             <div className="w-16 h-16 border-2 border-slate-800 rounded-lg flex flex-col items-center justify-center bg-slate-50 text-[10px] font-bold text-center p-1">
               <span>GRADES</span>
-              <span className="text-base text-school-900">1 - 8</span>
+              <span className="text-base text-slate-900 font-black">1 - 8</span>
             </div>
           </div>
         </div>
@@ -92,7 +92,7 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
           </div>
           <div>
             <span className="text-slate-500 font-semibold block uppercase">Student ID / Roll:</span>
-            <span className="font-bold text-sm text-school-900">
+            <span className="font-bold text-sm text-slate-900">
               {student.studentIdNumber} (Roll #{student.rollNumber || 1})
             </span>
           </div>
@@ -110,7 +110,7 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
           </div>
         </div>
 
-        {/* Subjects & Marks Table */}
+        {/* Pure Numerical Subjects & Marks Table */}
         <div className="overflow-x-auto mb-6">
           <table className="w-full border-collapse border border-slate-400 text-xs">
             <thead>
@@ -118,10 +118,9 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
                 <th className="border border-slate-400 p-2 text-left w-10">#</th>
                 <th className="border border-slate-400 p-2 text-left">Subject (የትምህርት አይነት)</th>
                 <th className="border border-slate-400 p-2 w-28">Continuous Assmt (50%)</th>
-                <th className="border border-slate-400 p-2 w-24">Final Exam (50%)</th>
-                <th className="border border-slate-400 p-2 w-24">Total (100%)</th>
-                <th className="border border-slate-400 p-2 w-20">Grade</th>
-                <th className="border border-slate-400 p-2 w-20">Status</th>
+                <th className="border border-slate-400 p-2 w-28">Final Exam (50%)</th>
+                <th className="border border-slate-400 p-2 w-28 bg-slate-900 text-white">Total (100%)</th>
+                <th className="border border-slate-400 p-2 w-24">Status (ውጤት)</th>
               </tr>
             </thead>
             <tbody>
@@ -142,17 +141,14 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
                   <td className="border border-slate-300 p-2 text-center font-semibold">
                     {item.finalExamScore}
                   </td>
-                  <td className="border border-slate-300 p-2 text-center font-bold text-slate-950 text-sm">
+                  <td className="border border-slate-300 p-2 text-center font-black text-slate-950 text-sm bg-slate-100/50">
                     {item.totalScore}
-                  </td>
-                  <td className="border border-slate-300 p-2 text-center font-black text-school-900">
-                    {item.letterGrade}
                   </td>
                   <td className="border border-slate-300 p-2 text-center">
                     {item.isPassed ? (
-                      <span className="text-emerald-700 font-bold">Passed</span>
+                      <span className="text-emerald-700 font-bold">ያለፈ (Passed)</span>
                     ) : (
-                      <span className="text-rose-700 font-bold">Failed</span>
+                      <span className="text-rose-700 font-bold">የወደቀ (Failed)</span>
                     )}
                   </td>
                 </tr>
@@ -161,12 +157,12 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
             <tfoot>
               <tr className="bg-slate-100 font-bold text-slate-900 border-t-2 border-slate-400">
                 <td colSpan="4" className="border border-slate-400 p-2.5 text-right uppercase">
-                  Total Marks Earned (አጠቃላይ ድምር):
+                  Total Marks Earned (አጠቃላይ የተማሪው ድምር):
                 </td>
-                <td className="border border-slate-400 p-2.5 text-center text-sm font-black text-school-950">
+                <td className="border border-slate-400 p-2.5 text-center text-sm font-black text-slate-950">
                   {reportCard.totalMarks} / {reportCard.maxPossibleMarks}
                 </td>
-                <td colSpan="2" className="border border-slate-400 p-2.5 text-center text-xs">
+                <td className="border border-slate-400 p-2.5 text-center text-xs">
                   Average: <span className="font-black text-sm">{reportCard.average}%</span>
                 </td>
               </tr>
@@ -179,19 +175,19 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
           {/* Summary Box */}
           <div className="border border-slate-300 rounded-lg p-3.5 bg-slate-50 space-y-2">
             <div className="font-bold text-slate-900 uppercase border-b border-slate-200 pb-1 flex items-center justify-between">
-              <span>Class Standing (ደረጃ)</span>
-              <Award className="w-4 h-4 text-gold-600" />
+              <span>Class Standing (የክፍል ደረጃ)</span>
+              <Award className="w-4 h-4 text-amber-600" />
             </div>
             <div className="flex justify-between items-center py-1">
               <span className="text-slate-600">Rank in Section:</span>
-              <span className="font-black text-base text-school-900">
+              <span className="font-black text-base text-slate-950">
                 {reportCard.rank === 1
-                  ? '1st Place'
+                  ? '1ኛ ደረጃ (1st)'
                   : reportCard.rank === 2
-                  ? '2nd Place'
+                  ? '2ኛ ደረጃ (2nd)'
                   : reportCard.rank === 3
-                  ? '3rd Place'
-                  : `${reportCard.rank}th Place`}{' '}
+                  ? '3ኛ ደረጃ (3rd)'
+                  : `${reportCard.rank}ኛ ደረጃ`}{' '}
                 <span className="text-xs text-slate-500 font-normal">
                   / {reportCard.totalStudentsInClass}
                 </span>
@@ -205,9 +201,9 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
               <span className="text-slate-600">Academic Status:</span>
               <span
                 className={`font-bold px-2 py-0.5 rounded text-[11px] ${
-                  reportCard.status === 'Promoted'
+                  reportCard.status.includes('Promoted') || reportCard.status.includes('ያለፈ')
                     ? 'bg-emerald-100 text-emerald-800'
-                    : reportCard.status === 'Promoted with Warning'
+                    : reportCard.status.includes('Warning') || reportCard.status.includes('በማስጠንቀቂያ')
                     ? 'bg-amber-100 text-amber-800'
                     : 'bg-rose-100 text-rose-800'
                 }`}
@@ -220,25 +216,25 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
           {/* Conduct & Attendance */}
           <div className="border border-slate-300 rounded-lg p-3.5 bg-slate-50 space-y-2">
             <div className="font-bold text-slate-900 uppercase border-b border-slate-200 pb-1">
-              Behavior & Attendance
+              Behavior & Attendance (ስነ-ምግባርና ክትትል)
             </div>
             <div className="flex justify-between items-center py-1">
-              <span className="text-slate-600">Conduct Grade (ስነ-ምግባር):</span>
-              <span className="font-black text-base text-emerald-700">
-                Grade {reportCard.conduct || 'A'} (Excellent)
+              <span className="text-slate-600">Conduct (ስነ-ምግባር):</span>
+              <span className="font-black text-xs text-emerald-700">
+                {reportCard.conduct || 'በጣም ጥሩ (A)'}
               </span>
             </div>
             <div className="flex justify-between items-center py-1 border-t border-slate-200">
               <span className="text-slate-600">Days Present / Total:</span>
               <span className="font-semibold text-slate-900">
                 {reportCard.attendance?.daysPresent || 90} / {reportCard.attendance?.totalDays || 92}{' '}
-                days
+                ቀን
               </span>
             </div>
             <div className="flex justify-between items-center py-1 border-t border-slate-200">
               <span className="text-slate-600">Absence Record:</span>
               <span className="font-semibold text-slate-900">
-                {reportCard.attendance?.daysAbsent || 2} days
+                {reportCard.attendance?.daysAbsent || 2} ቀን
               </span>
             </div>
           </div>
@@ -246,10 +242,10 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
           {/* Remarks */}
           <div className="border border-slate-300 rounded-lg p-3.5 bg-slate-50 space-y-2">
             <div className="font-bold text-slate-900 uppercase border-b border-slate-200 pb-1">
-              Teacher's Remarks
+              Teacher's Remarks (የመምህር አስተያየት)
             </div>
             <p className="text-slate-700 italic leading-relaxed pt-1">
-              "{reportCard.teacherComment || 'Outstanding performance and consistent hard work.'}"
+              "{reportCard.teacherComment || 'በጣም ጥሩ የትምህርት አቀባበልና ስነ-ምግባር አሳይቷል/ታለች።'}"
             </p>
           </div>
         </div>
@@ -260,12 +256,12 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
             <div className="h-10 border-b border-slate-400 mb-1 flex items-end justify-center font-serif italic text-slate-700">
               A. Awel
             </div>
-            <span className="font-bold text-slate-900 block">Homeroom Teacher</span>
-            <span className="text-[10px] text-slate-500">የክፍል ኃላፊ መምህር</span>
+            <span className="font-bold text-slate-900 block">Homeroom Teacher Signature</span>
+            <span className="text-[10px] text-slate-500">የክፍል ኃላፊ መምህር ፊርማ</span>
           </div>
 
           <div className="flex flex-col items-center justify-center">
-            <div className="w-20 h-20 rounded-full border-2 border-dashed border-school-800 flex flex-col items-center justify-center p-1 text-[9px] text-school-900 font-bold uppercase tracking-tighter">
+            <div className="w-20 h-20 rounded-full border-2 border-dashed border-slate-800 flex flex-col items-center justify-center p-1 text-[9px] text-slate-900 font-bold uppercase tracking-tighter">
               <span>Karadibayu</span>
               <span>Primary School</span>
               <span className="text-[8px] text-slate-500">OFFICIAL SEAL</span>
@@ -278,15 +274,15 @@ const PrintableReportCard = ({ reportCard, student, academicYear, semester }) =>
               Alemayehu T.
             </div>
             <span className="font-bold text-slate-900 block">School Director / Principal</span>
-            <span className="text-[10px] text-slate-500">የርዕሰ መምህር ፊርማ</span>
+            <span className="text-[10px] text-slate-500">የርዕሰ መምህር ፊርማና ማረጋገጫ</span>
           </div>
         </div>
 
         {/* Watermark and Verification Notice */}
         <div className="mt-8 pt-3 border-t border-slate-200 flex justify-between items-center text-[10px] text-slate-400 font-mono">
-          <span>Official Document ID: KPS-{student.studentIdNumber.replace('/', '')}-2026</span>
+          <span>Document Code: KPS-{student.studentIdNumber.replace('/', '')}-2026</span>
           <span>Verified by Karadibayu Academic Records Division</span>
-          <span>Issued on: {new Date().toLocaleDateString()}</span>
+          <span>Date: {new Date().toLocaleDateString()}</span>
         </div>
       </div>
     </div>

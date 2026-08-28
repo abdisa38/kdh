@@ -57,6 +57,7 @@ app.use('/api/reports', require('./routes/reportCardRoutes'));
 app.use('/api/academic', require('./routes/academicRoutes'));
 app.use('/api/announcements', require('./routes/announcementRoutes'));
 app.use('/api/dashboard', require('./routes/dashboardRoutes'));
+app.use('/api/modules', require('./routes/extraRoutes'));
 
 // 404 Route Handler
 app.use('*', (req, res) => {

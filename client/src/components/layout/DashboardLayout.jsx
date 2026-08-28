@@ -19,6 +19,22 @@ import {
   Calendar,
   Home,
   CheckCircle2,
+  Search,
+  Settings,
+  CreditCard,
+  Layers,
+  Sparkles,
+  RefreshCw,
+  FolderKanban,
+  Clock,
+  BookMarked,
+  Package,
+  Activity,
+  Languages,
+  Moon,
+  Sun,
+  UserPlus,
+  Compass,
 } from 'lucide-react';
 
 const DashboardLayout = ({ children, title, subtitle }) => {
@@ -26,33 +42,51 @@ const DashboardLayout = ({ children, title, subtitle }) => {
   const location = useLocation();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [langAmharic, setLangAmharic] = useState(false);
 
-  const getNavLinks = () => {
-    if (user?.role === 'admin' || user?.role === 'registrar') {
-      return [
-        { name: 'Overview', path: '/admin', icon: LayoutDashboard },
-        { name: 'Student Records', path: '/admin/students', icon: GraduationCap },
-        { name: 'Teaching Staff', path: '/admin/teachers', icon: Users },
-        { name: 'Classes & Sections', path: '/admin/classes', icon: BookOpen },
-        { name: 'Master Sheet & Ranking', path: '/admin/mastersheet', icon: FileSpreadsheet },
-        { name: 'Announcements', path: '/admin/announcements', icon: Bell },
-      ];
-    } else if (user?.role === 'teacher') {
-      return [
-        { name: 'Teacher Overview', path: '/teacher', icon: LayoutDashboard },
-        { name: 'Marksheet & Grade Entry', path: '/teacher/grading', icon: FileSpreadsheet },
-        { name: 'Class Rankings & Conduct', path: '/teacher/rankings', icon: Award },
-      ];
-    } else {
-      return [
-        { name: 'Student Dashboard', path: '/student', icon: LayoutDashboard },
-        { name: 'Official Report Card', path: '/student/report-card', icon: FileText },
-        { name: 'Attendance & Conduct', path: '/student/attendance', icon: UserCheck },
-      ];
-    }
-  };
+  // Complete list of SIMS modules matching Ethiopian Addis Ababa School Information Management System
+  const allAdminLinks = [
+    { name: langAmharic ? 'ዳሽቦርድ' : 'Dashboard', path: '/admin', icon: LayoutDashboard, gradient: 'from-blue-500 to-cyan-500' },
+    { name: langAmharic ? 'ተማሪዎች' : 'Student', path: '/admin/students', icon: GraduationCap, gradient: 'from-cyan-500 to-teal-500' },
+    { name: langAmharic ? 'መምህራን' : 'Teacher', path: '/admin/teachers', icon: Users, gradient: 'from-teal-500 to-emerald-500' },
+    { name: langAmharic ? 'የክፍል ሽግግር' : 'Mass transfer', path: '/admin/classes', icon: Layers, gradient: 'from-indigo-500 to-blue-500' },
+    { name: langAmharic ? 'አካዳሚክስ' : 'Academics', path: '/admin/classes', icon: BookOpen, gradient: 'from-purple-500 to-indigo-500' },
+    { name: langAmharic ? 'የትምህርት እቅድ' : 'Lesson Plan', path: '/admin/lesson-plans', icon: FolderKanban, gradient: 'from-cyan-600 to-blue-600' },
+    { name: langAmharic ? 'ተከታታይ ምዘና' : 'Assessment Schedule', path: '/admin/mastersheet', icon: Calendar, gradient: 'from-amber-500 to-orange-500' },
+    { name: langAmharic ? 'ማስታወቂያ' : 'Announcement', path: '/admin/announcements', icon: Bell, gradient: 'from-rose-500 to-orange-500' },
+    { name: langAmharic ? 'የተማሪዎች ክትትል' : 'Student Attendance', path: '/admin/attendance', icon: UserCheck, gradient: 'from-emerald-500 to-teal-600' },
+    { name: langAmharic ? 'የትምህርት ቤት ንብረት' : 'Asset Management', path: '/admin/assets', icon: Package, gradient: 'from-amber-600 to-yellow-500' },
+    { name: langAmharic ? 'የትምህርት ፕሮግራም' : 'Program / Timetable', path: '/admin/timetable', icon: Clock, gradient: 'from-blue-600 to-violet-600' },
+    { name: langAmharic ? 'የተማሪ መታወቂያ' : 'ID Card', path: '/admin/id-cards', icon: CreditCard, gradient: 'from-sky-500 to-indigo-600' },
+    { name: langAmharic ? 'የውጤት ካርድ' : 'Report Card Generate', path: '/admin/mastersheet', icon: FileText, gradient: 'from-emerald-600 to-teal-500' },
+    { name: langAmharic ? 'ማስተር ሺት' : 'Master Mark Sheet', path: '/admin/mastersheet', icon: FileSpreadsheet, gradient: 'from-teal-600 to-cyan-600' },
+    { name: langAmharic ? 'የክፍል ማለፊያ' : 'Promotion', path: '/admin/promotion', icon: Compass, gradient: 'from-rose-500 to-pink-600' },
+  ];
 
-  const navLinks = getNavLinks();
+  const teacherLinks = [
+    { name: langAmharic ? 'ዳሽቦርድ' : 'Teacher Dashboard', path: '/teacher', icon: LayoutDashboard, gradient: 'from-blue-500 to-cyan-500' },
+    { name: langAmharic ? 'የውጤት መመዝገቢያ' : 'Mark Entry & CA (50%)', path: '/teacher/grading', icon: FileSpreadsheet, gradient: 'from-teal-500 to-emerald-500' },
+    { name: langAmharic ? 'የክፍል ደረጃ' : 'Class Rankings', path: '/teacher/rankings', icon: Award, gradient: 'from-amber-500 to-orange-500' },
+    { name: langAmharic ? 'የተማሪዎች ክትትል' : 'Daily Attendance', path: '/teacher/attendance', icon: UserCheck, gradient: 'from-emerald-500 to-teal-600' },
+    { name: langAmharic ? 'የትምህርት እቅድ' : 'Lesson Plans', path: '/teacher/lesson-plans', icon: FolderKanban, gradient: 'from-cyan-600 to-blue-600' },
+    { name: langAmharic ? 'የተማሪ መታወቂያ' : 'Student ID Cards', path: '/admin/id-cards', icon: CreditCard, gradient: 'from-sky-500 to-indigo-600' },
+    { name: langAmharic ? 'የክፍል ፕሮግራም' : 'Timetable', path: '/admin/timetable', icon: Clock, gradient: 'from-blue-600 to-violet-600' },
+  ];
+
+  const studentLinks = [
+    { name: langAmharic ? 'ዳሽቦርድ' : 'Student Dashboard', path: '/student', icon: LayoutDashboard, gradient: 'from-blue-500 to-cyan-500' },
+    { name: langAmharic ? 'የውጤት ካርድ' : 'Official Report Card', path: '/student/report-card', icon: FileText, gradient: 'from-emerald-600 to-teal-500' },
+    { name: langAmharic ? 'የተማሪ መታወቂያ' : 'Digital ID Card', path: '/student/id-card', icon: CreditCard, gradient: 'from-sky-500 to-indigo-600' },
+    { name: langAmharic ? 'የክትትል መዝገብ' : 'Attendance & Conduct', path: '/student/attendance', icon: UserCheck, gradient: 'from-teal-500 to-emerald-500' },
+    { name: langAmharic ? 'የክፍል ፕሮግራም' : 'Weekly Timetable', path: '/student/timetable', icon: Clock, gradient: 'from-blue-600 to-violet-600' },
+  ];
+
+  const navLinks =
+    user?.role === 'admin' || user?.role === 'registrar'
+      ? allAdminLinks
+      : user?.role === 'teacher'
+      ? teacherLinks
+      : studentLinks;
 
   const handleLogout = () => {
     logout();
@@ -60,148 +94,186 @@ const DashboardLayout = ({ children, title, subtitle }) => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-100 flex flex-col md:flex-row">
-      {/* Mobile Header */}
-      <div className="md:hidden bg-school-950 text-white px-4 py-3 flex items-center justify-between shadow-md">
-        <div className="flex items-center gap-2.5">
-          <GraduationCap className="w-6 h-6 text-gold-400" />
-          <span className="font-bold tracking-tight text-sm">KARADIBAYU PORTAL</span>
-        </div>
-        <button
-          onClick={() => setSidebarOpen(!sidebarOpen)}
-          className="p-1.5 rounded-lg hover:bg-school-800 text-slate-200"
-        >
-          {sidebarOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-        </button>
-      </div>
+    <div className="min-h-screen bg-[#F4F7FB] flex flex-col font-sans text-slate-800">
+      {/* Top Global SIMS Header */}
+      <header className="sticky top-0 z-40 bg-white border-b border-slate-200/80 shadow-xs px-4 sm:px-6 lg:px-8 py-2.5 flex items-center justify-between">
+        {/* Left: School Emblem & Name */}
+        <div className="flex items-center gap-3">
+          <button
+            onClick={() => setSidebarOpen(!sidebarOpen)}
+            className="md:hidden p-2 rounded-xl text-slate-600 hover:bg-slate-100"
+          >
+            {sidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
 
-      {/* Sidebar Navigation */}
-      <aside
-        className={`fixed md:static inset-y-0 left-0 z-50 w-72 bg-school-950 text-slate-300 flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
-      >
-        <div>
-          {/* Sidebar Header / Institution Seal */}
-          <div className="p-6 border-b border-school-900">
-            <Link to="/" className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-school-800 flex items-center justify-center text-white shadow-inner">
-                <GraduationCap className="w-6 h-6 text-gold-400" />
-              </div>
-              <div>
-                <h1 className="text-base font-bold text-white tracking-tight leading-none">
-                  KARADIBAYU
-                </h1>
-                <p className="text-xs text-school-400 uppercase font-semibold tracking-wider mt-1">
-                  Primary School
-                </p>
-              </div>
-            </Link>
-
-            {/* Active Academic Term Badge */}
-            <div className="mt-4 px-3 py-2 rounded-lg bg-school-900/80 border border-school-800 flex items-center justify-between text-xs text-slate-300">
-              <div className="flex items-center gap-1.5 font-medium">
-                <Calendar className="w-3.5 h-3.5 text-gold-400" />
-                <span>2026/2018 E.C.</span>
-              </div>
-              <span className="px-1.5 py-0.5 rounded bg-emerald-950 text-emerald-300 font-semibold text-[10px] border border-emerald-800">
-                Semester 1
-              </span>
+          <Link to="/" className="flex items-center gap-3 group">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-700 to-indigo-900 flex items-center justify-center text-white shadow-sm group-hover:scale-105 transition-transform">
+              <GraduationCap className="w-6 h-6 text-amber-300" />
             </div>
-          </div>
-
-          {/* Navigation Links */}
-          <nav className="p-4 space-y-1.5">
-            <div className="px-3 py-2 text-[11px] font-semibold text-slate-400 uppercase tracking-wider">
-              {user?.role} Portal Navigation
+            <div>
+              <div className="text-sm sm:text-base font-extrabold text-slate-900 tracking-tight leading-none">
+                Karadibayu Primary and Middle School
+              </div>
+              <div className="text-[11px] text-slate-500 font-medium mt-0.5">
+                የካራዲባዩ አንደኛና መካከለኛ ደረጃ ትምህርት ቤት • 2018 E.C.
+              </div>
             </div>
-            {navLinks.map((item) => {
-              const Icon = item.icon;
-              const isActive = location.pathname === item.path;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center justify-between px-3.5 py-2.5 rounded-lg text-sm font-medium transition-colors ${
-                    isActive
-                      ? 'bg-school-700 text-white font-semibold shadow-sm'
-                      : 'text-slate-400 hover:text-white hover:bg-school-900'
-                  }`}
-                >
-                  <div className="flex items-center gap-3">
-                    <Icon className={`w-4 h-4 ${isActive ? 'text-gold-400' : 'text-slate-400'}`} />
-                    <span>{item.name}</span>
-                  </div>
-                  {isActive && <ChevronRight className="w-4 h-4 text-gold-400" />}
-                </Link>
-              );
-            })}
-          </nav>
+          </Link>
         </div>
 
-        {/* Sidebar Footer: User Profile & Logout */}
-        <div className="p-4 border-t border-school-900 bg-school-950/80 space-y-3">
-          <div className="flex items-center gap-3 px-2">
-            <div className="w-9 h-9 rounded-full bg-school-800 flex items-center justify-center font-bold text-sm text-gold-400 border border-school-700">
-              {user?.fullName?.charAt(0) || 'U'}
-            </div>
-            <div className="overflow-hidden">
-              <p className="text-sm font-medium text-white truncate">{user?.fullName}</p>
-              <div className="flex items-center gap-1 text-[11px] text-slate-400">
-                <span className="capitalize font-semibold text-gold-400">{user?.role}</span>
-                <span>•</span>
-                <span className="truncate">{user?.username}</span>
-              </div>
-            </div>
+        {/* Right: Actions, Language Switcher, SIMS Badge, Profile */}
+        <div className="flex items-center gap-3">
+          {/* SIMS Badge */}
+          <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 bg-amber-50 border border-amber-200 text-amber-800 rounded-full text-xs font-bold shadow-xs">
+            <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+            <span>SIMS PORTAL</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-school-900">
-            <Link
-              to="/"
-              className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-school-900 text-slate-300 text-xs font-medium hover:bg-school-800 transition-colors"
-            >
-              <Home className="w-3.5 h-3.5" />
-              Website
-            </Link>
+          {/* Language Switch */}
+          <button
+            onClick={() => setLangAmharic(!langAmharic)}
+            className="flex items-center gap-1 px-2.5 py-1.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-700 text-xs font-bold hover:bg-slate-100 transition-colors"
+            title="Toggle Language"
+          >
+            <Languages className="w-3.5 h-3.5 text-blue-600" />
+            <span>{langAmharic ? 'EN' : 'አማ'}</span>
+          </button>
+
+          {/* User Profile Card */}
+          <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+            <div className="relative">
+              <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-blue-600 to-cyan-500 text-white flex items-center justify-center font-bold text-xs shadow">
+                {user?.fullName?.charAt(0) || 'U'}
+              </div>
+              <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 ring-2 ring-white"></span>
+            </div>
+            <div className="hidden lg:block text-left">
+              <p className="text-xs font-bold text-slate-900 truncate max-w-[120px]">
+                {user?.fullName}
+              </p>
+              <p className="text-[10px] text-blue-700 font-bold uppercase tracking-wider">
+                {user?.role}
+              </p>
+            </div>
             <button
               onClick={handleLogout}
-              className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-lg bg-rose-950/60 text-rose-300 border border-rose-900 text-xs font-medium hover:bg-rose-900/60 transition-colors"
+              title="Logout"
+              className="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition-colors ml-1"
             >
-              <LogOut className="w-3.5 h-3.5" />
-              Logout
+              <LogOut className="w-4 h-4" />
             </button>
           </div>
         </div>
-      </aside>
+      </header>
 
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-        {/* Top bar for dashboard */}
-        <header className="bg-white border-b border-slate-200 px-6 py-4 flex justify-between items-center shadow-xs">
-          <div>
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">{title}</h2>
-            {subtitle && <p className="text-xs text-slate-500 mt-0.5">{subtitle}</p>}
+      {/* Main Container: Sidebar + Main Content + Right Quick Dock */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Sidebar Navigation */}
+        <aside
+          className={`fixed md:static inset-y-0 left-0 top-[57px] md:top-0 z-30 w-64 bg-white border-r border-slate-200 flex flex-col justify-between transition-transform duration-300 ease-in-out md:translate-x-0 ${
+            sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
+        >
+          <div className="p-3 overflow-y-auto flex-1 space-y-1">
+            <div className="px-3 py-2 text-[11px] font-bold text-slate-400 uppercase tracking-wider flex items-center justify-between">
+              <span>Main Menu</span>
+              <span className="text-[10px] bg-slate-100 px-1.5 py-0.5 rounded text-slate-500">
+                2018 E.C.
+              </span>
+            </div>
+
+            {navLinks.map((item, idx) => {
+              const Icon = item.icon;
+              const isActive = location.pathname === item.path;
+
+              return (
+                <Link
+                  key={idx}
+                  to={item.path}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-semibold transition-all ${
+                    isActive
+                      ? 'bg-blue-50/80 text-blue-700 font-bold shadow-xs'
+                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div
+                      className={`w-7 h-7 rounded-lg bg-gradient-to-tr ${item.gradient} text-white flex items-center justify-center shadow-xs shrink-0`}
+                    >
+                      <Icon className="w-3.5 h-3.5" />
+                    </div>
+                    <span className="truncate">{item.name}</span>
+                  </div>
+                  {isActive && <ChevronRight className="w-3.5 h-3.5 text-blue-600 shrink-0" />}
+                </Link>
+              );
+            })}
           </div>
 
-          <div className="flex items-center gap-3">
-            <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg text-xs font-medium text-slate-600">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              <span>System Status: Online</span>
-            </div>
+          {/* Sidebar Footer */}
+          <div className="p-3 border-t border-slate-100 bg-slate-50/60 text-xs">
             <Link
-              to="/check-results"
-              className="px-3 py-1.5 bg-school-50 text-school-700 border border-school-200 rounded-lg text-xs font-semibold hover:bg-school-100 transition-colors"
+              to="/"
+              className="flex items-center justify-center gap-2 w-full py-2 bg-white border border-slate-200 rounded-xl font-bold text-slate-700 hover:bg-slate-100 transition-colors shadow-2xs"
             >
-              Quick Result Lookup
+              <Home className="w-3.5 h-3.5 text-blue-600" />
+              <span>Public School Website</span>
             </Link>
           </div>
-        </header>
+        </aside>
 
-        {/* Dashboard Dynamic Content */}
-        <main className="flex-1 p-6 md:p-8 overflow-y-auto max-w-7xl w-full mx-auto">
+        {/* Center Main Dashboard Workspace */}
+        <main className="flex-1 p-4 sm:p-6 lg:p-8 overflow-y-auto min-w-0 max-w-7xl mx-auto w-full">
           {children}
         </main>
+
+        {/* Right Quick Shortcuts Rail / Dock (Inspired by Addis Ababa SIMS) */}
+        <aside className="hidden xl:flex w-16 bg-white border-l border-slate-200 flex-col items-center py-6 gap-4 shadow-2xs">
+          <div className="text-[10px] font-bold text-slate-400 uppercase tracking-tighter">
+            Shortcuts
+          </div>
+
+          <Link
+            to={user?.role === 'admin' ? '/admin/students' : '/student'}
+            title="Students Directory"
+            className="w-10 h-10 rounded-xl bg-gradient-to-tr from-cyan-500 to-teal-500 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+          >
+            <GraduationCap className="w-5 h-5" />
+          </Link>
+
+          <Link
+            to={user?.role === 'teacher' ? '/teacher/grading' : '/admin/mastersheet'}
+            title="Mark Entry / Grades"
+            className="w-10 h-10 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-600 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+          >
+            <FileSpreadsheet className="w-5 h-5" />
+          </Link>
+
+          <Link
+            to="/admin/id-cards"
+            title="Generate Student ID Cards"
+            className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-500 to-indigo-600 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+          >
+            <CreditCard className="w-5 h-5" />
+          </Link>
+
+          <Link
+            to="/admin/timetable"
+            title="Class Timetables"
+            className="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-500 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+          >
+            <Clock className="w-5 h-5" />
+          </Link>
+
+          <Link
+            to="/admin/assets"
+            title="Textbook & Asset Inventory"
+            className="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-500 to-indigo-600 text-white flex items-center justify-center shadow-sm hover:scale-110 transition-transform"
+          >
+            <Package className="w-5 h-5" />
+          </Link>
+        </aside>
       </div>
     </div>
   );
