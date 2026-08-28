@@ -23,13 +23,19 @@ import TeacherDashboard from './pages/teacher/TeacherDashboard';
 import MarksheetEntryPage from './pages/teacher/MarksheetEntryPage';
 import ClassRankingPage from './pages/teacher/ClassRankingPage';
 
-// Admin Pages
+// Admin Pages & SIMS Modules
 import AdminDashboard from './pages/admin/AdminDashboard';
 import StudentsManagementPage from './pages/admin/StudentsManagementPage';
 import TeachersManagementPage from './pages/admin/TeachersManagementPage';
 import ClassRoomsPage from './pages/admin/ClassRoomsPage';
 import MasterSheetPage from './pages/admin/MasterSheetPage';
 import AnnouncementsAdminPage from './pages/admin/AnnouncementsAdminPage';
+import IdCardGeneratorPage from './pages/admin/IdCardGeneratorPage';
+import AttendanceManagementPage from './pages/admin/AttendanceManagementPage';
+import LessonPlansPage from './pages/admin/LessonPlansPage';
+import TimetablePage from './pages/admin/TimetablePage';
+import AssetManagementPage from './pages/admin/AssetManagementPage';
+import PromotionPage from './pages/admin/PromotionPage';
 
 // Public Layout Wrapper with Navbar & Footer
 const PublicLayout = () => {
@@ -77,10 +83,26 @@ function App() {
             }
           />
           <Route
+            path="/student/id-card"
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <IdCardGeneratorPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/student/attendance"
             element={
               <ProtectedRoute allowedRoles={['student']}>
                 <StudentAttendancePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/student/timetable"
+            element={
+              <ProtectedRoute allowedRoles={['student']}>
+                <TimetablePage />
               </ProtectedRoute>
             }
           />
@@ -107,6 +129,22 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['teacher', 'admin']}>
                 <ClassRankingPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teacher/attendance"
+            element={
+              <ProtectedRoute allowedRoles={['teacher', 'admin']}>
+                <AttendanceManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/teacher/lesson-plans"
+            element={
+              <ProtectedRoute allowedRoles={['teacher', 'admin']}>
+                <LessonPlansPage />
               </ProtectedRoute>
             }
           />
@@ -157,6 +195,54 @@ function App() {
             element={
               <ProtectedRoute allowedRoles={['admin']}>
                 <AnnouncementsAdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/id-cards"
+            element={
+              <ProtectedRoute allowedRoles={['admin', 'registrar']}>
+                <IdCardGeneratorPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/attendance"
+            element={
+              <ProtectedRoute allowedRoles={['admin', 'registrar']}>
+                <AttendanceManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/lesson-plans"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <LessonPlansPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/timetable"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <TimetablePage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/assets"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <AssetManagementPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/promotion"
+            element={
+              <ProtectedRoute allowedRoles={['admin']}>
+                <PromotionPage />
               </ProtectedRoute>
             }
           />
